@@ -1,0 +1,663 @@
+@property --acc {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #6f6758;
+}
+
+:root {
+  --acc: #6f6758;
+  --acc-on: #ffffff;
+  transition: --acc 0.7s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overflow-x: clip;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  scrollbar-width: none;
+  background: var(--paper, #f4f1ea);
+  -webkit-font-smoothing: antialiased;
+  font-family: 'DM Sans', 'Hind Siliguri', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ink, #151515);
+}
+
+body.reader-fullscreen {
+  overflow: hidden !important;
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+body.reader-fullscreen header,
+body.reader-fullscreen footer,
+body.reader-fullscreen .custom-scroll-rail {
+  display: none !important;
+}
+
+/* Comic Reader Fullscreen Floating Controls */
+.reader-floating-nav {
+  position: absolute;
+  z-index: 100;
+  width: clamp(42px, 3.8vw, 54px);
+  height: clamp(42px, 3.8vw, 54px);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  background: rgba(21, 20, 19, 0.84);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: clamp(20px, 2vw, 26px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.reader-floating-nav:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+/* Desktop layout: centered vertically on sides */
+@media (min-width: 769px) {
+  .reader-floating-nav {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .reader-floating-nav-prev {
+    left: clamp(10px, 1.8vw, 24px);
+  }
+  .reader-floating-nav-next {
+    right: clamp(10px, 1.8vw, 24px);
+  }
+}
+
+/* Mobile layout: moved to bottom for ergonomic thumb reach and unblocked artwork */
+@media (max-width: 768px) {
+  .reader-fullscreen-stage {
+    padding: clamp(3px, 0.8vh, 6px) !important;
+  }
+  .reader-floating-nav {
+    top: auto;
+    bottom: max(10px, env(safe-area-inset-bottom, 10px));
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+    transform: none;
+  }
+  .reader-floating-nav-prev {
+    left: max(10px, env(safe-area-inset-left, 10px));
+  }
+  .reader-floating-nav-next {
+    right: max(10px, env(safe-area-inset-right, 10px));
+  }
+  .reader-floating-dots {
+    bottom: max(14px, env(safe-area-inset-bottom, 14px)) !important;
+    max-width: calc(100vw - 110px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+
+/* Forced landscape on mobile portrait for double-page spread - Edge-to-Edge */
+.reader-stage-forced-landscape {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transform-origin: center center !important;
+  z-index: 999999 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Immersive Auto-hiding HUD Elements */
+.reader-hud-overlay {
+  transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  will-change: opacity, transform;
+}
+
+.reader-hud-overlay.hud-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+}
+
+.reader-hud-overlay.hud-hidden.hud-top {
+  transform: translateY(-8px) !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--ink, #151515);
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--acc);
+}
+
+::selection {
+  background: var(--ink-bg, #151515);
+  color: #f4f1ea;
+}
+
+:focus-visible {
+  outline: 3px solid var(--acc);
+  outline-offset: 3px;
+}
+
+@keyframes rs-marq {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes rs-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
+@keyframes rs-wig {
+  0%, 100% { rotate: -6deg; }
+  50% { rotate: 4deg; }
+}
+
+@keyframes rs-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes rs-spin {
+  to { rotate: 360deg; }
+}
+
+/* Comic styled custom utilities */
+.font-bangers {
+  font-family: 'Bangers', 'Hind Siliguri', cursive;
+}
+
+.font-sora {
+  font-family: 'Sora', 'Hind Siliguri', sans-serif;
+}
+
+.comic-shadow {
+  box-shadow: 4px 4px 0 #151515;
+}
+
+.comic-shadow-lg {
+  box-shadow: 8px 8px 0 #151515;
+}
+
+.comic-starburst {
+  clip-path: polygon(
+    50% 0%, 61% 20%, 83% 10%, 79% 34%,
+    100% 42%, 82% 58%, 94% 80%, 70% 78%,
+    60% 100%, 47% 82%, 26% 96%, 25% 72%,
+    2% 70%, 16% 52%, 0% 32%, 24% 28%,
+    20% 6%, 40% 18%
+  );
+}
+
+/* Hide scrollbar completely on mobile devices and touch screens */
+@media (max-width: 1024px), (pointer: coarse), (hover: none) {
+  .custom-scroll-rail {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  html, body, #root, * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+/* Hide floating decorative hero bubble on small/tablet screens to prevent text overlap */
+@media (max-width: 980px) {
+  .hero-speech-bubble {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  .hero-boom-burst {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* Center comic and series book covers on mobile devices */
+@media (max-width: 820px) {
+  .comic-detail-hero-layout,
+  .series-detail-hero-layout {
+    justify-content: center;
+  }
+  .comic-detail-cover-container {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 14px auto !important;
+  }
+  .comic-detail-cover-book {
+    width: min(250px, 72vw) !important;
+    margin: 0 auto !important;
+  }
+  .series-detail-cover-container {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 16px auto !important;
+  }
+  .series-detail-cover-container > div:first-child {
+    width: min(280px, 76vw) !important;
+    margin: 0 auto !important;
+  }
+  .shelf-book-stand-container {
+    width: min(250px, 72vw) !important;
+    margin: 0 0 0 10px !important;
+    align-self: flex-start !important;
+  }
+}
+
+/* Home hero + scroll section (marquee) full screen on mobile */
+@media (max-width: 980px) {
+  .home-hero-ticker-wrap {
+    min-height: 100svh !important;
+    min-height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+  }
+  .home-hero-section {
+    flex: 1 1 auto !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-evenly !important;
+    box-sizing: border-box !important;
+    padding-top: calc(var(--nav-h, 64px) + clamp(10px, 1.8vh, 22px)) !important;
+    padding-bottom: clamp(6px, 1.2vh, 14px) !important;
+    gap: clamp(8px, 1.4vh, 16px) !important;
+  }
+  .home-hero-ticker {
+    flex: 0 0 auto !important;
+  }
+  .home-hero-ticker span {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    font-size: clamp(18px, 2.2vw, 24px) !important;
+  }
+}
+
+/* Comics hero full screen on desktop */
+@media (min-width: 981px) {
+  .comics-hero-section {
+    min-height: calc(100vh - 72px) !important;
+    min-height: calc(100dvh - 72px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    padding-bottom: clamp(16px, 2.5vh, 36px) !important;
+  }
+  .comics-hero-header {
+    padding: clamp(24px, 3.5vh, 44px) clamp(12px, 1.8vw, 24px) clamp(10px, 1.5vh, 20px) !important;
+  }
+  .comics-hero-shelf {
+    padding: 0 clamp(12px, 1.8vw, 24px) clamp(16px, 2.5vh, 32px) !important;
+  }
+  .shelf-book-row {
+    height: clamp(210px, 23vh, 280px) !important;
+  }
+  .shelf-grid-layout {
+    grid-template-columns: minmax(280px, 360px) minmax(460px, 1fr) !important;
+    gap: clamp(28px, 3.5vw, 56px) !important;
+    align-items: center !important;
+  }
+  .shelf-book-stand-container {
+    width: min(230px, 18vw) !important;
+    margin: 0 0 0 10px !important;
+    align-self: flex-start !important;
+  }
+}
+
+/* Comic Reader Fullscreen & HUD Auto-Hide System */
+.reader-fullscreen-stage {
+  padding: 0 !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .reader-stage-forced-landscape {
+    transform: rotate(90deg) !important;
+    transform-origin: center center !important;
+    width: 100vh !important;
+    height: 100vw !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -50vw !important;
+    margin-left: -50vh !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* In forced landscape, position pill & arrows in the outer letterbox bars so they NEVER touch the comic */
+  .reader-stage-forced-landscape .reader-hud-pill {
+    top: 12px !important;
+    left: 14px !important;
+    right: auto !important;
+    max-width: calc(100vh - 28px) !important;
+  }
+
+  .reader-stage-forced-landscape .reader-floating-dots {
+    display: none !important;
+  }
+
+  .reader-stage-forced-landscape .reader-floating-nav {
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .reader-stage-forced-landscape .reader-floating-nav-prev {
+    left: 12px !important;
+  }
+
+  .reader-stage-forced-landscape .reader-floating-nav-next {
+    right: 12px !important;
+  }
+
+  .reader-stage-forced-landscape .reader-floating-nav.hud-hidden {
+    opacity: 0 !important;
+    transform: translateY(-50%) scale(0.85) !important;
+  }
+}
+
+/* Floating Navigation Buttons in Fullscreen */
+.reader-floating-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 80;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(21, 20, 19, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s;
+  user-select: none;
+}
+
+.reader-floating-nav:hover:not(:disabled) {
+  background: rgba(30, 28, 26, 0.95);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.reader-floating-nav:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.reader-floating-nav-prev {
+  left: clamp(10px, 2vw, 24px);
+}
+
+.reader-floating-nav-next {
+  right: clamp(10px, 2vw, 24px);
+}
+
+/* Mobile: Position floating arrows at bottom edges to keep artwork completely unobstructed */
+@media (max-width: 768px) {
+  .reader-floating-nav {
+    top: auto !important;
+    bottom: 14px !important;
+    transform: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 26px !important;
+  }
+  .reader-floating-nav:hover:not(:disabled) {
+    transform: scale(1.06) !important;
+  }
+  .reader-floating-nav:active:not(:disabled) {
+    transform: scale(0.94) !important;
+  }
+  .reader-floating-nav-prev {
+    left: 12px !important;
+  }
+  .reader-floating-nav-next {
+    right: 12px !important;
+  }
+  .reader-floating-dots {
+    bottom: 22px !important;
+  }
+}
+
+/* HUD Auto-hide transitions */
+.reader-hud-overlay {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.reader-hud-overlay.hud-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.reader-hud-overlay.hud-hidden.hud-top {
+  transform: translateY(-16px) !important;
+}
+
+.reader-floating-nav.hud-hidden {
+  opacity: 0 !important;
+  transform: translateY(-50%) scale(0.85) !important;
+}
+
+@media (max-width: 768px) {
+  .reader-floating-nav.hud-hidden {
+    transform: translateY(16px) !important;
+  }
+}
+
+.reader-floating-dots.hud-hidden {
+  transform: translate(-50%, 16px) !important;
+}
+
+/* ── Global keyframe animations ─────────────────────────────────────────── */
+@keyframes rs-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rs-wig {
+  0%, 100% { transform: rotate(-10deg) scale(1); }
+  25%       { transform: rotate(-14deg) scale(1.04); }
+  75%       { transform: rotate(-6deg)  scale(0.96); }
+}
+
+@keyframes rs-spin {
+  to { transform: rotate(360deg); }
+}
+
+.rs-spinner {
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--ink, #151515);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: rs-spin 0.7s linear infinite;
+}
+
+.rs-icon-spin { animation: rs-spin 0.8s linear infinite; }
+
+.rs-page-guard, .rs-page-guard * {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+@media print {
+  .rs-page-guard { display: none !important; }
+}
+
+/* Footer: brand block takes two columns only when two fit */
+@media (min-width: 768px) {
+  .footer-brand:not(.site-footer-brand) {
+    grid-column: span 2;
+  }
+}
+
+/* Mobile: clean 2-column layout across all 3 platforms */
+@media (max-width: 767px) {
+  .footer-grid,
+  .site-footer-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 20px !important;
+    row-gap: 32px !important;
+  }
+  .footer-brand,
+  .site-footer-brand {
+    grid-column: 1 / -1 !important;
+    margin-bottom: 6px;
+  }
+  .footer-col,
+  .site-footer-col {
+    min-width: 0 !important;
+  }
+  .footer-col nav,
+  .site-footer-col nav {
+    min-width: 0 !important;
+  }
+}
+/* Comfortable tap targets for footer links (WCAG 2.2: at least 24×24) */
+footer a { padding-block: 4px; }
+
+/* ── The platforms' themes ────────────────────────────────────────────────
+   Shared pages draw with theme tokens, each falling back to the main site's
+   own value (var(--ink, #151515)), so the main site sets none of them. App
+   marks <html data-site> with the platform it is.
+   Stories: a literary page — warm paper, serif headings, fine rules, no hard shadows.
+   Originals: a dark screening room — night surfaces, light type, gold. */
+:root[data-site='stories'] {
+  --ink: #1c1917;
+  --ink-bg: #2b211b;
+  --paper: #faf6ee;
+  --card: #fff;
+  --card-2: #fbf7f0;
+  --muted: #78716c;
+  --muted-2: #57534e;
+  --edge: #e2d8c8;
+  --bwk: .5;
+  --shk: 0;
+  --font-display: 'Literata', 'Noto Serif Bengali', Georgia, serif;
+  --stage: #f1e8da;
+  --acc: #9a3412;
+}
+
+:root[data-site='originals'] {
+  --ink: #f5f5f4;
+  --ink-bg: #2a2826;
+  --paper: #0b0b0b;
+  --card: #161514;
+  --card-2: #1c1b1a;
+  --muted: #a8a29e;
+  --muted-2: #d6d3d1;
+  --edge: rgba(255, 255, 255, .13);
+  --bwk: .5;
+  --shk: 0;
+  --font-display: 'Sora', 'Hind Siliguri', sans-serif;
+  color-scheme: dark;
+  /* The comic reader's stage: a dark screen rather than a paper desk */
+  --stage: #050505;
+  --stage-stripes: repeating-linear-gradient(45deg, #121110 0 12px, #0d0c0b 12px 24px);
+}
+
+/* Raised surfaces get the soft depth the hard shadows gave on the main site */
+:root[data-site='stories'] main section[style*='--card'],
+:root[data-site='originals'] main section[style*='--card'] { box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 12px 32px -20px rgba(0, 0, 0, .35) !important; }
+
+/* ── Originals motion (lib/motion.js, installed on Originals only) ──────── */
+.can-reveal [data-reveal]:not([data-revealed]) { opacity: 0; transform: translateY(24px); }
+.can-reveal [data-reveal] { transition: opacity .7s cubic-bezier(.2, .8, .2, 1), transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--reveal-delay, 0s); }
+
+/* The comic burst from "Read the comic": gold, in the comics' own lettering */
+.pow-burst {
+  position: fixed; z-index: 100000; pointer-events: none; padding: 26px 30px;
+  font-family: 'Bangers', 'Hind Siliguri', cursive; font-size: 30px; letter-spacing: .04em; line-height: 1;
+  color: #0b0b0b; background: #f5c542;
+  clip-path: polygon(50% 0, 61% 18%, 82% 6%, 78% 30%, 100% 34%, 84% 52%, 100% 70%, 76% 70%, 80% 96%, 60% 80%, 48% 100%, 38% 80%, 16% 94%, 22% 70%, 0 66%, 16% 50%, 2% 30%, 24% 28%, 20% 4%, 40% 18%);
+  animation: pow-burst .75s cubic-bezier(.2, .9, .3, 1.3) forwards;
+}
+@keyframes pow-burst {
+  0% { transform: translate(-50%, -50%) rotate(var(--pow-tilt)) scale(.2); opacity: 0; }
+  30% { transform: translate(-50%, -60%) rotate(var(--pow-tilt)) scale(1.1); opacity: 1; }
+  70% { transform: translate(-50%, -70%) rotate(var(--pow-tilt)) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -90%) rotate(var(--pow-tilt)) scale(.9); opacity: 0; }
+}
+
+/* The scroll rail (ScrollRail.jsx): a thin line in the site's colour */
+.custom-scroll-rail .rail-track {
+  position: absolute; top: 0; bottom: 0; right: 4px; width: 4px; border-radius: 99px;
+  background: color-mix(in srgb, var(--ink, #151515) 8%, transparent); transition: width .2s;
+}
+.custom-scroll-rail .rail-thumb {
+  right: 4px; width: 4px; border-radius: 99px; cursor: grab;
+  background: color-mix(in srgb, var(--ink, #151515) 45%, transparent); transition: width .2s, background-color .2s;
+}
+:root[data-site='originals'] .custom-scroll-rail .rail-thumb { background: rgba(245, 197, 66, .7); }
+.custom-scroll-rail:hover .rail-track, .custom-scroll-rail:hover .rail-thumb { width: 8px; }
+.custom-scroll-rail:hover .rail-thumb { background: var(--acc, #6f6758); }
+:root[data-site='originals'] .custom-scroll-rail:hover .rail-thumb { background: #f5c542; }
+.custom-scroll-rail .rail-thumb:active { cursor: grabbing; }
+
+/* Inner scrolling areas (shelves, the comic page strip, tables): a slim rounded
+   thumb in the site's own ink, no track and no arrow buttons */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--ink, #151515) 28%, transparent) transparent; }
+*::-webkit-scrollbar { width: 6px; height: 6px; background: transparent; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+*::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink, #151515) 28%, transparent); border-radius: 99px; }
+*::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--ink, #151515) 50%, transparent); }
+*::-webkit-scrollbar-corner { background: transparent; }
