@@ -1,3 +1,4 @@
+import CoinBalance from './CoinBalance';
 import React, { useState } from 'react';
 import { Menu, X, UserRound, ChevronRight } from 'lucide-react';
 import NotificationBell from './NotificationBell';
@@ -38,6 +39,7 @@ export default function SiteNav({ theme, links, lang, t, base, user, currentRout
   const onAccount = currentRoute === 'account';
   const state = [
     'snav',
+    user && 'snav-has-wallet',
     overlay && 'is-overlay',
     (bar.scrolled || menuOpen) && 'is-scrolled',
     bar.hidden && !menuOpen && 'is-hidden'
@@ -112,6 +114,7 @@ export default function SiteNav({ theme, links, lang, t, base, user, currentRout
             ))}
           </div>
 
+          <CoinBalance lang={lang} base={base} user={user} />
           {langToggle}
 
           <button
@@ -164,6 +167,7 @@ export default function SiteNav({ theme, links, lang, t, base, user, currentRout
           padding: '16px clamp(12px, 1.8vw, 24px)', background: th.drawer, color: th.fg,
           overflowY: 'auto', animation: 'rs-in 0.3s ease-out'
         }}>
+          <button className="sc-drawer-search" onClick={()=>{closeMenu();openSearch();}}><ISearch />{t.searchNav}</button>
           {[...links, { href: `${base}/account`, label: user ? user.name : t.acc.signIn, active: onAccount }].map(l => (
             <a
               key={l.href}

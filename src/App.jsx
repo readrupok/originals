@@ -64,11 +64,12 @@ const IS_BOT = typeof navigator !== 'undefined' && /bot|crawl|spider|slurp|light
 // The language of the head the server rendered into this page (<html lang>), read before the app changes it
 const SSR_LANG = typeof document !== 'undefined' ? document.documentElement.lang : '';
 
+const coinPrice = (value, lang) => { const digits='০১২৩৪৫৬৭৮৯'; const n=Number(String(value||'0').replace(/[০-৯]/g,d=>digits.indexOf(d)).replace(/[^0-9.]/g,'')); return `${Math.ceil(n)} ${lang==='bn'?'কয়েন':'coins'}`; };
 // ─── Transform raw API series/comics data into the exact shape all pages use ─
 function buildSeriesList(rawSeries, rawComics, lang, t, base, unlockedSeries, pendingSeries = {}) {
   return rawSeries.map((x, i) => {
     const isLocked = !!x.paid && !unlockedSeries[x.k];
-    const passPrice = x.paid ? (lang === 'bn' ? x.pass_price_bdt : x.pass_price_usd) : '';
+    const passPrice = x.paid ? coinPrice(x.pass_price_bdt,lang) : '';
 
     return {
       k: x.k,
@@ -115,7 +116,7 @@ function buildComicsList(rawComics, seriesList, lang, t, base, unlockedComics, u
     const paid = !!c.is_paid;
     // A comic unlocks by buying it directly or by owning its series pass
     const locked = paid && !unlockedComics[c.k] && !unlockedSeries[c.series_key];
-    const price = paid ? (lang === 'bn' ? c.price_bdt : c.price_usd) : '';
+    const price = paid ? coinPrice(c.price_bdt,lang) : '';
 
     return {
       k: c.k,
@@ -570,7 +571,7 @@ export default function App() {
   const openPay = (k, kind = 'comic', extra = {}) => setPayModal({ k, kind, ...extra });
   const closePay = () => setPayModal(null);
 
-  // Submits a manual payment (sender number + TrxID). It stays pending until an admin approves it.
+  // Confirm a server-priced shared-wallet purchase and refresh access.
   const submitOrder = useCallback(async payload => {
     const res = await api.submitOrder(payload);
     if (res.ok) await loadAccount();

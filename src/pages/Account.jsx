@@ -1,3 +1,4 @@
+import { CoinAccount } from '../components/CoinWallet';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import AuthForm from '../components/AuthForm';
 import PasswordField, { FIELD_STYLE } from '../components/PasswordField';
@@ -242,6 +243,7 @@ function Dashboard({ lang, base, t, num, user, comics, series, works, author, ap
     { id: 'overview', label: a.secOverview },
     hasReading && { id: 'reading', label: showStories ? a.secReading : a.secWatching, count: inProgress.length },
     onOriginals && { id: 'list', label: c.myList, count: myList.keys.size },
+    showComics && { id: 'coins', label: lang === 'bn' ? 'কয়েন' : 'Coins' },
     showComics && { id: 'unlocked', label: a.secUnlocked, count: unlockedCount },
     showStories && { id: 'author', label: a.authorNav },
     showComics && { id: 'purchases', label: a.secPurchases, count: orders?.length || 0, dot: orders?.some(o => o.status === 'pending') },
@@ -278,6 +280,7 @@ function Dashboard({ lang, base, t, num, user, comics, series, works, author, ap
   const ctx = { a, c, t, lang, base, n, go };
 
   const panel = {
+    coins: <CoinAccount lang={lang} />,
     overview: <Overview {...ctx} {...{ reading, inProgress, showStories, showComics, showSettings, onOriginals, orders, follows, myList, unlockedCount, author }} />,
     reading: <ReadingSection {...ctx} reading={reading} showComics={showComics} showStories={showStories} />,
     list: <MyListSection {...ctx} series={series} myList={myList} />,

@@ -1,0 +1,222 @@
+.sc-stack {
+  display: grid;
+  gap: 24px;
+}
+.sc-panel {
+  background: var(--card, #fffdf8);
+  color: var(--ink, #1c1917);
+  border: 1px solid var(--edge, #ded5c7);
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 32px);
+  line-height: 1.65;
+  min-width: 0;
+}
+.sc-panel h2,
+.sc-panel h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-display, inherit);
+}
+.sc-heading,
+.sc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.sc-row {
+  padding: 14px 0;
+  border-bottom: 1px solid #ddd5c744;
+  flex-wrap: wrap;
+  overflow-wrap: anywhere;
+}
+.sc-row p {
+  margin: 3px 0;
+}
+.sc-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #9a3412;
+}
+.sc-balance {
+  font-size: 48px;
+  line-height: 1.3;
+}
+.sc-balance small {
+  font-size: 18px;
+}
+.sc-form {
+  display: grid;
+  gap: 16px;
+  max-width: 700px;
+}
+.sc-form label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+.sc-form input:not([type='checkbox']),
+.sc-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #b9ac9a;
+  border-radius: 9px;
+  background: var(--card, #fff);
+  color: inherit;
+  font: inherit;
+}
+.sc-form input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+}
+.sc-panel button,
+.sc-link {
+  padding: 10px 16px;
+  border: 1px solid #b9ac9a;
+  border-radius: 9px;
+  font: inherit;
+  cursor: pointer;
+  background: var(--card, #fff);
+  color: inherit;
+}
+.sc-panel button.sc-primary {
+  background: #1c1917;
+  color: #fff;
+  border-color: #1c1917;
+  font-weight: 700;
+}
+.sc-panel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.sc-panel button:focus-visible,
+.sc-panel a:focus-visible {
+  outline: 3px solid #9a3412;
+  outline-offset: 3px;
+}
+.sc-notice {
+  padding: 18px;
+  background: #f1e9dc;
+  color: #1c1917;
+  border-radius: 10px;
+}
+.sc-error {
+  background: #fff0ee;
+  color: #9d251d;
+  padding: 12px;
+  border-radius: 8px;
+}
+.sc-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+.sc-metrics strong {
+  display: block;
+  font-size: 27px;
+}
+.sc-unlock {
+  margin: 24px 0;
+  text-align: center;
+}
+.sc-unlock ul {
+  text-align: left;
+}
+.sc-unlock button {
+  margin: 6px;
+}
+.sc-sponsored {
+  margin: 24px 0;
+  background: #f2ece1;
+}
+.sc-panel summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.sc-panel a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+
+/* A minted Rupok seal, kept as vectors so the currency stays crisp at any size. */
+.sc-nav-wallet { display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0; padding: 5px 10px 5px 6px; border: 1px solid #d7b66e; border-radius: 30px; background: #fff2cc; color: #5a3920; font-size: 13px; font-weight: 800; text-decoration: none; font-variant-numeric: tabular-nums; }
+.sc-nav-wallet:hover { background: #ffe8a5; }
+.sc-drawer-search { display: flex; align-items: center; gap: 10px; padding: 14px; border: 1px solid currentColor; border-radius: 12px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.sc-nav-wallet:focus-visible { outline: 2px solid #9a3412; outline-offset: 3px; }
+.acc-tab-label { display: inline-flex; align-items: center; gap: 9px; }
+.acc-tab-label .rupok-coin { --coin-size: 21px; }
+@media (min-width: 1100px) and (max-width: 1400px) {
+  .snav [aria-label='More from Rupok'].site-nav-links { display: none !important; }
+}
+@media (max-width: 480px) {
+  .snav-has-wallet .snav-icon { display: none !important; }
+  .snav-has-wallet > div > a:first-child > span { gap: 6px !important; }
+  .snav-has-wallet > div > a:first-child > span > span > span { font-size: 18px !important; }
+}
+@media (max-width: 600px) {
+  .sc-nav-wallet { gap: 4px; padding: 4px 7px 4px 4px; font-size: 12px; }
+  .sc-nav-wallet .rupok-coin { --coin-size: 21px; }
+        }
+.rupok-coin {
+  --coin-size: 24px;
+  display: inline-flex;
+  width: var(--coin-size);
+  height: var(--coin-size);
+  flex: 0 0 var(--coin-size);
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.rupok-coin > img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.rupok-coin--hero { --coin-size: 150px; transform: rotate(-14deg); }
+.rupok-coin--small { --coin-size: 65px; transform: rotate(17deg); }
+.rupok-coin--feature { --coin-size: 56px; margin-bottom: 10px; }
+.rupok-coin--pack { --coin-size: 40px; }
+.sc-wallet { position: relative; overflow: hidden; padding-right: 230px; background: radial-gradient(ellipse at 95% 30%, #f7d57966, transparent 62%), #fffaf0; color: #302617; border-color: #dfc78f; }
+.sc-wallet .sc-balance { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+.sc-wallet .sc-balance .rupok-coin { --coin-size: 34px; }
+.sc-wallet-art { position: absolute; right: 38px; top: 55px; width: 160px; height: 180px; pointer-events: none; }
+.sc-wallet-art > .rupok-coin--small { position: absolute; bottom: 0; right: -8px; }
+.sc-spark { position: absolute; color: #b9852e; font-size: 30px; }
+.sc-spark-one { top: -24px; right: -8px; }
+.sc-spark-two { bottom: 0; left: -15px; font-size: 24px; }
+.sc-wallet a.sc-wallet-cta { display: inline-flex; text-decoration: none; border-radius: 30px; padding: 10px 20px; color: #fff8e7; background: #5a3920; font-weight: 700; }
+.sc-wallet-purpose { margin-top: 18px; color: #776347; font-size: 14px; font-style: italic; }
+.sc-icon-heading { display: flex; align-items: center; gap: 12px; }
+.sc-icon-heading .rupok-coin { margin-bottom: 0; }
+.sc-coin-value { display: inline-flex; gap: 7px; align-items: center; }
+.sc-coin-packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 10px 0; }
+.sc-panel button.sc-coin-pack { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 8px 14px; border-color: #dfcfae; background: #fffbf2; color: #49351c; transition: transform .18s, box-shadow .18s; }
+.sc-panel button.sc-coin-pack[aria-pressed='true'] { background: #fff0c4; border: 2px solid #9a6a20; box-shadow: 0 4px 16px #9a6a2017; }
+.sc-coin-pack:hover { transform: translateY(-3px); }
+.sc-pack-art { display: flex; height: 48px; align-items: center; padding-right: 8px; }
+.sc-pack-art .rupok-coin + .rupok-coin { margin-left: -22px; transform: translateY(-5px); }
+.sc-pack-art .rupok-coin:last-child { transform: rotate(10deg); }
+.sc-coin-pack > span:last-child { font-size: 13px; }
+.sc-unlock { background: radial-gradient(ellipse at top, #f4daa54a, transparent 75%), var(--card, #fffdf8); }
+#coin-topup { scroll-margin-top: 90px; }
+@media (max-width: 600px) {
+  .sc-wallet { padding-right: 22px; }
+  .sc-wallet-art { right: 24px; top: 100px; width: 65px; height: 78px; }
+  .sc-wallet-art .rupok-coin--hero { --coin-size: 65px; }
+  .sc-wallet-art .rupok-coin--small { --coin-size: 30px; }
+  .sc-wallet .sc-balance { padding-right: 90px; font-size: 40px; }
+  .sc-wallet .sc-heading { align-items: start; }
+  .sc-coin-packs { gap: 7px; }
+  .sc-coin-pack strong { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-panel button.sc-coin-pack { transition: none; }
+  .sc-coin-pack:hover { transform: none; }
+}
+
+.acc-stat-n.acc-stat-coins { display: flex; align-items: center; gap: 10px; }
+.acc-stat-coins .rupok-coin { --coin-size: 32px; }
+
+.sc-form textarea { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #b9ac9a; border-radius: 9px; background: var(--card, #fff); color: inherit; font: inherit; resize: vertical; }

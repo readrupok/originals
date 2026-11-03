@@ -1,3 +1,4 @@
+import CoverImage from '../components/CoverImage';
 import React, { useState, useEffect, useRef } from 'react';
 import { api, getUserToken } from '../services/api';
 import { fetchPageImage } from '../services/comicPages';
@@ -405,7 +406,7 @@ export default function ComicReader({ lang, base, comics, sid, num, openPay, t, 
       return (
         <div style={{ position: 'relative', width: '100%', height: '100%', background: 'var(--ink-bg, #151515)' }}>
           {/* The page matches the 2:3 cover ratio */}
-          <img src={c.poster} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <CoverImage seriesKey={c.seriesKey} src={c.poster} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 14, background: 'linear-gradient(90deg, rgba(0,0,0,.5), transparent)' }} />
         </div>
       );
@@ -755,7 +756,7 @@ export default function ComicReader({ lang, base, comics, sid, num, openPay, t, 
                 transform: 'rotateY(-14deg) rotate(-2deg)'
               }}
             >
-              <img src={c.poster} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <CoverImage seriesKey={c.seriesKey} src={c.poster} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               <span style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 12, background: 'linear-gradient(90deg, rgba(0,0,0,.45), transparent)' }} />
             </div>
           </div>

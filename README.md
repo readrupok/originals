@@ -10,3 +10,5 @@ Build with `npm run build`.
 
 Originals uses the same Rupok account as Stories and Books. The server repo's
 Docker Compose environment serves it at http://localhost:5203.
+
+Comics and series passes use the shared Rupok Coins wallet. Top up from Account → Coins. Existing purchases remain valid; the direct-payment checkout is retired.

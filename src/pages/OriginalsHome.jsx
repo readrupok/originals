@@ -1,3 +1,4 @@
+import CoverImage from '../components/CoverImage';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BookOpen, ChevronLeft, ChevronRight, Info, Lock, Play, Volume2, VolumeX } from 'lucide-react';
 import MyListButton from '../components/MyListButton';
@@ -88,8 +89,9 @@ export function Poster({ item, label, sub, badge, locked, seriesKey, ctx }) {
       <a href={item.href} className="og-poster" style={{ display: 'flex', flexDirection: 'column', gap: 10, color: TEXT, textDecoration: 'none' }}>
         <span className="og-art" style={{
           position: 'relative', aspectRatio: '2 / 3', borderRadius: 12, overflow: 'hidden',
-          background: `${item.ac || PANEL} url(${item.poster}) center/cover`, display: 'block'
+          background: item.ac || PANEL, display: 'block'
         }}>
+          <CoverImage src={item.poster} seriesKey={seriesKey || item.seriesKey || item.k} style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}} />
           {badge && (
             <span style={{
               position: 'absolute', top: 8, left: 8, padding: '3px 9px', borderRadius: 6,

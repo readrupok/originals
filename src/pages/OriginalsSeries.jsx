@@ -1,3 +1,4 @@
+import CoverImage from '../components/CoverImage';
 import React, { useEffect, useState } from 'react';
 import { BookOpen, Lock, Play } from 'lucide-react';
 import MyListButton from '../components/MyListButton';
@@ -44,7 +45,7 @@ export default function OriginalsSeries({ lang, base, t, num, user, series = [],
         <div aria-hidden="true" className="ogs-pic" style={{ background: `${s.ac} url(${s.hasBanner ? s.banner : s.poster}) center 25%/cover`, filter: s.hasBanner ? 'none' : 'blur(3px) saturate(1.1)', transform: s.hasBanner ? 'none' : 'scale(1.08)' }} />
         <div aria-hidden="true" className="ogs-shade" />
         <div className="ogs-head">
-          <img src={s.poster} alt="" className="ogs-poster" />
+          <CoverImage src={s.poster} seriesKey={s.k} alt="" className="ogs-poster" />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0, maxWidth: 720 }}>
             <a href={`${base}/series`} style={{ color: GOLD, fontWeight: 800, fontSize: 12.5, letterSpacing: '.18em', textTransform: 'uppercase', textDecoration: 'none' }}>
               {c.kicker} · {s.status}

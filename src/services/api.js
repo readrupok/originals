@@ -60,6 +60,7 @@ async function req(path, opts = {}) {
 const post = (path, body, method = 'POST') => req(path, { method, body: JSON.stringify(body) });
 
 export const api = {
+  commerce: (path, body, method='POST') => body === undefined ? req('/client/commerce'+path) : post('/client/commerce'+path, body, method),
   /** BFF aggregated home data: series + comics + stats in one request */
   getHome: (lang = 'en') => req(`/client/home?lang=${lang}`),
 
@@ -90,7 +91,7 @@ export const api = {
   getPaymentMethods: () => req('/client/payment-methods'),
 
   /** Submits a manual payment for verification: { key, kind, methodId, senderNumber, transactionId } */
-  submitOrder: payload => post('/client/orders', payload),
+  submitOrder: payload => post('/client/commerce/platform-purchase', payload),
 
   // ── Reader account ──
   async register(payload) {
