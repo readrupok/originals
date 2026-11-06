@@ -12,3 +12,18 @@ state/
 *.log
 .legacy/
 .workspace-archive/
+
+# Local credentials and generated review artifacts
+**/.env.*
+!**/.env*.example
+**/.credentials/
+**/credentials.json
+*.keystore
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+**/test-results/
+*.apk
+*.aab
+*.ipa

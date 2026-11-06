@@ -10,12 +10,12 @@ import Home from './pages/Home';
 import Series from './pages/Series';
 import SeriesDetail from './pages/SeriesDetail';
 import Comics from './pages/Comics';
-import ComicReader from './pages/ComicReader';
+const ComicReader = React.lazy(() => import('./pages/ComicReader'));
 import Authors from './pages/Authors';
 import Watch from './pages/Watch';
 import Studio from './pages/Studio';
 import Contact from './pages/Contact';
-import Account from './pages/Account';
+const Account = React.lazy(() => import('./pages/Account'));
 import NotFound from './pages/NotFound';
 import SearchPanel from './components/SearchPanel';
 import Partners from './pages/Partners';
@@ -24,8 +24,8 @@ import Legal from './pages/Legal';
 import Writers from './pages/Library';
 import LibraryList from './pages/LibraryList';
 import AuthorProfile from './pages/AuthorProfile';
-import WorkReader from './pages/WorkReader';
-import AuthorDesk from './pages/AuthorDesk';
+const WorkReader = React.lazy(() => import('./pages/WorkReader'));
+const AuthorDesk = React.lazy(() => import('./pages/AuthorDesk'));
 
 // The dedicated sites' own pages and frame (lib/sites.js)
 import SiteNav from './components/SiteNav';

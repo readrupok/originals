@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { INK, fill } from '../data/content';
 import { api, getUserToken } from '../services/api';
 import RichText, { RichTextStyles } from '../components/RichText';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, Check, Lock } from 'lucide-react';
 import TranslateNotice from '../components/TranslateNotice';
 import ListenBar from '../components/ListenBar';
 import CommentsSection from '../components/CommentsSection';
